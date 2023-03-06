@@ -6,12 +6,12 @@ import { DatabaseService } from './database.service';
     {
       provide: DatabaseService,
       useValue: new DatabaseService({
-        client: 'tesst',
+        client: 'pg',
         connection: {
-          host: '192.168.1.13',
-          port: Number(process.env.POSTGRES_PORT),
-          user: process.env.POSTGRES_USER,
-          password: process.env.POSTGRES_PASSWORD,
+          host: 'localhost',
+          port: 5432,
+          user: 'hp',
+          password: '123456',
           database: 'spotify',
         },
         pool: {

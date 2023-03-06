@@ -7,3 +7,9 @@ export class UserDto {
     password : string
 
 }
+
+export class UpdateUserDto {
+    firstName : string
+    lastName : string
+    username : string
+}
