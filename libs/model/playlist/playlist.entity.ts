@@ -1,21 +1,21 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('tracks')
-export class TrackDto {
+export class PlaylistDto {
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date
     
     @PrimaryGeneratedColumn()
-    trackNumber: number
+    id: number
 
     @Column()
-    username: string
+    userId: number
 
     @Column()
-    email: string
+    trackId: number
 
     @Column()
-    password: string
+    playlistName: string
 
 }

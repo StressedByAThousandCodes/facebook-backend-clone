@@ -2,33 +2,42 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/
 import { SpotifyService } from './spotify.service';
 import { CreateSpotifyDto } from './dto/create-spotify.dto';
 import { UpdateUserDto, UserDto } from 'libs/model/user/user.dto';
+import { TrackDto } from 'libs/model/tracks/tracks.dto';
+import { PlaylistDto } from 'libs/model/playlist/playlist.dto';
 
 @Controller('spotify')
 export class SpotifyController {
   constructor(private readonly spotifyService: SpotifyService) {}
 
+  //User
   @Post()
   createUser(@Body() user: UserDto) {
     return this.spotifyService.create(user);
   }
 
+  @Post('login')
+  login(@Body() body) {
+    return this.spotifyService.login(body.email, body.password);
+  }
+
   @Get()
-  findAll() {
+  findAllUser() {
     return this.spotifyService.findAll();
   }
 
   @Get('find-user')
-  findOne(@Body() body) {
+  findOneUser(@Body() body) {
     return this.spotifyService.findOne(body.firstName);
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() user: UpdateUserDto) {
+  updateUser(@Param('id') id: number, @Body() user: UpdateUserDto) {
     return this.spotifyService.update(id, user);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  removeUser(@Param('id') id: string) {
     return this.spotifyService.remove(+id);
   }
+
 }
