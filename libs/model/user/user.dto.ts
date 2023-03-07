@@ -6,6 +6,13 @@ export class UserDto {
 
 }
 
+
+export class UserPayload {
+    accountId : number
+    username : string
+    email : string
+}
+
 export class UpdateUserDto {
     username : string
 }

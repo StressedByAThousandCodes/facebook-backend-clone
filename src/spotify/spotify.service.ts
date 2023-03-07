@@ -1,11 +1,13 @@
-import { genSalt, hash, compare } from 'bcrypt'
+import { genSalt, hash } from 'bcrypt'
 import { Knex } from 'knex';
 import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 
 import { DatabaseService } from 'libs/database/database.service';
 import { UpdateUserDto, UserDto } from 'libs/model/user/user.dto';
 import { TrackDto } from 'libs/model/tracks/tracks.dto';
 import { PlaylistDto } from 'libs/model/playlist/playlist.dto';
+
 
 const SALT_WORK_FACTOR = 10;
 
@@ -16,6 +18,7 @@ export class SpotifyService {
   private dbInstance: Knex;
     constructor(
         private db: DatabaseService,
+        private readonly jwtService:JwtService
     ) { this.dbInstance = this.db.getInstance(); }
 
   async create(user: UserDto) {
@@ -24,41 +27,42 @@ export class SpotifyService {
     .select()
     .where({email : user.email})
     ;
+
+    
     //console.log(exist);
     if(exist){
       return 'User already exist';
     }
     const encrypt = await this.encryptPassword(user.password)
     user.password = encrypt;
-    console.log(encrypt)
-    return this.db
+
+    const [newUser] = await this.db
     .connection('user')
     .insert(user)
     .returning('*')
     ;
+
+    const payload = {
+      accountId: newUser.accountId,
+      username: newUser.username,
+      email: newUser.email,
+    }
+
+    const userDetail = {
+      accessToken: this.jwtService.sign(payload)
+    }
+
+    return userDetail;
   }
 
-  async login(email: string, password: string) {
-    const [user] = await this.db
+  async currentUser(accountId: number){
+    console.log(accountId);
+    return this.db
     .connection('user')
     .select()
-    .where({email})
-    ;
-    console.log(user)
-    if(!user){
-      return 'User doesnt exist';
-    }
-
-    const isMatch = await compare(password, user.password)
-    console.log(isMatch);
-
-    if(isMatch){
-      return user;
-    }
-    else{
-      return 'Password does not match';
-    }
+    .where({accountId})
   }
+  
 
   findAll() {
     return this.db
@@ -67,12 +71,25 @@ export class SpotifyService {
     ;
   }
 
-  findOne(firstName : string) {
+  findOne(accountId : string) {
     return this.db
     .connection('user')
     .select()
-    .where({firstName})
+    .where({accountId})
+    .then((rows) => rows[0])
     ;
+  }
+
+  async findUser(accountId : number) {
+    console.log('==========================',accountId)
+    const test = await this.db
+    .connection('user')
+    .select('accountId', 'username', 'email')
+    .where({accountId})
+    .then((rows) => rows[0])
+    ;
+    console.log(test)
+    return test
   }
 
   update(id: number, user: UpdateUserDto) {
