@@ -1,18 +1,20 @@
 export class UserDto {
-    accountId : number
-    username : string
+    id : number
+    firstName : string
+    lastName : string
     email : string
     password : string
-
 }
 
 
 export class UserPayload {
-    accountId : number
-    username : string
+    id : number
+    firstName : string
+    lastName : string
     email : string
 }
 
 export class UpdateUserDto {
-    username : string
+    firstName : string
+    lastName : string
 }

@@ -4,16 +4,14 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { DatabaseService } from 'libs/database/database.service';
-import { UpdateUserDto, UserDto } from 'libs/model/user/user.dto';
-import { TrackDto } from 'libs/model/tracks/tracks.dto';
-import { PlaylistDto } from 'libs/model/playlist/playlist.dto';
+import { UpdateUserDto, UserDto, UserPayload } from 'libs/model/user/user.dto';
 
 
 const SALT_WORK_FACTOR = 10;
 
 
 @Injectable()
-export class SpotifyService {
+export class UserService {
 
   private dbInstance: Knex;
     constructor(
@@ -28,8 +26,6 @@ export class SpotifyService {
     .where({email : user.email})
     ;
 
-    
-    //console.log(exist);
     if(exist){
       return 'User already exist';
     }
@@ -42,9 +38,10 @@ export class SpotifyService {
     .returning('*')
     ;
 
-    const payload = {
-      accountId: newUser.accountId,
-      username: newUser.username,
+    const payload: UserPayload = {
+      id: newUser.id,
+      firstName : newUser.firstName,
+      lastName: newUser.lastName,
       email: newUser.email,
     }
 
@@ -55,12 +52,23 @@ export class SpotifyService {
     return userDetail;
   }
 
-  async currentUser(accountId: number){
-    console.log(accountId);
-    return this.db
+  async currentUser(id: number){
+
+    const [userProfile] = await this.db
     .connection('user')
     .select()
-    .where({accountId})
+    .where({id})
+    
+    const returnProfile = {
+      id: userProfile.id,
+      firstName: userProfile.firstName,
+      lastName: userProfile.lastName,
+      email: userProfile.email,
+      date: userProfile.date
+
+    }
+
+    return returnProfile;
   }
   
 
@@ -81,14 +89,14 @@ export class SpotifyService {
   }
 
   async findUser(accountId : number) {
-    console.log('==========================',accountId)
+    
     const test = await this.db
     .connection('user')
     .select('accountId', 'username', 'email')
     .where({accountId})
     .then((rows) => rows[0])
     ;
-    console.log(test)
+  
     return test
   }
 
