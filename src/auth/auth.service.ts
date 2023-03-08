@@ -27,9 +27,11 @@ export class AuthService {
     }
 
     const payload: UserPayload = {
+      id: user.id,
       email: user.email,
-      username : user.username,
-      accountId: user.accountId
+      firstName : user.firstName,
+      lastName : user.lastName,
+      
     }
 
     const isMatch = await compare(password, user.password)

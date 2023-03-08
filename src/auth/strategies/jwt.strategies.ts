@@ -1,10 +1,10 @@
 import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from 'passport-jwt'
-import { SpotifyService } from "src/spotify/spotify.service";
+import { UserService } from "src/user/user.service";
 
 
 export class JwtStrategy extends PassportStrategy(Strategy) {
-    constructor(private userService: SpotifyService) {
+    constructor(private userService: UserService) {
         super({
             jwtFromRequest : ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration : true,
