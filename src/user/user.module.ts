@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { SpotifyService } from './spotify.service';
-import { SpotifyController } from './spotify.controller';
+import { UserService } from './user.service';
+import { UserController } from './user.controller';
 import { DatabaseModule } from 'libs/database/database.module';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtStrategy } from 'src/auth/strategies/jwt.strategies';
@@ -8,8 +8,8 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  controllers: [SpotifyController],
-  providers: [AuthService, JwtStrategy,SpotifyService],
+  controllers: [UserController],
+  providers: [AuthService, JwtStrategy,UserService],
   imports: [DatabaseModule,
     JwtModule.register({
       secret : "secret",
@@ -19,4 +19,4 @@ import { JwtModule } from '@nestjs/jwt';
     PassportModule
   ]
 })
-export class SpotifyModule {}
+export class UserModule {}
