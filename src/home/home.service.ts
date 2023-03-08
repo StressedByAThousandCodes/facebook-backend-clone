@@ -10,10 +10,10 @@ export class HomeService {
         private db: DatabaseService,
     ) { this.dbInstance = this.db.getInstance(); }
 
-    createPost(body:string, id:number){
+    createPost(content:string, id:number){
 
         const post = {
-            content: body,
+            content: content,
             user: id 
         }  
 

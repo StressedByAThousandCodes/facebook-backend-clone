@@ -5,7 +5,6 @@ import { JwtService } from '@nestjs/jwt';
 
 import { DatabaseService } from 'libs/database/database.service';
 import { UpdateUserDto, UserDto, UserPayload } from 'libs/model/user/user.dto';
-import { first } from 'rxjs';
 
 
 const SALT_WORK_FACTOR = 10;
