@@ -5,15 +5,14 @@ import { JwtService } from '@nestjs/jwt';
 
 import { DatabaseService } from 'libs/database/database.service';
 import { UpdateUserDto, UserDto } from 'libs/model/user/user.dto';
-import { TrackDto } from 'libs/model/tracks/tracks.dto';
-import { PlaylistDto } from 'libs/model/playlist/playlist.dto';
+
 
 
 const SALT_WORK_FACTOR = 10;
 
 
 @Injectable()
-export class SpotifyService {
+export class UserService {
 
   private dbInstance: Knex;
     constructor(
@@ -28,8 +27,6 @@ export class SpotifyService {
     .where({email : user.email})
     ;
 
-    
-    //console.log(exist);
     if(exist){
       return 'User already exist';
     }

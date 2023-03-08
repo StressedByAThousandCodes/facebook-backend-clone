@@ -1,11 +1,11 @@
 import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards, Request } from '@nestjs/common';
-import { SpotifyService } from './spotify.service';
+import { UserService as UserService } from './user.service';
 import { UpdateUserDto, UserDto } from 'libs/model/user/user.dto';
 import { AuthGuard } from '@nestjs/passport'
 
 @Controller('spotify')
-export class SpotifyController {
-  constructor(private readonly spotifyService: SpotifyService) {}
+export class UserController {
+  constructor(private readonly spotifyService: UserService) {}
 
   @Post()
   createUser(@Body() user: UserDto) {

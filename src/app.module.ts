@@ -6,6 +6,7 @@ import { SpotifyModule } from './spotify/spotify.module';
 import { DatabaseModule } from 'libs/database/database.module';
 import { SongModule } from './song/song.module';
 import { AuthModule } from './auth/auth.module';
+import { HomeModule } from './home/home.module';
 
 @Module({
   imports: [SpotifyModule,
@@ -13,6 +14,7 @@ import { AuthModule } from './auth/auth.module';
     DatabaseModule,
     SongModule,
     AuthModule,
+    HomeModule,
     
   ],
   controllers: [AppController],
