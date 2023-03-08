@@ -1,6 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common';
+import { Controller, Post, Body, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SpotifyService } from 'src/spotify/spotify.service';
 import { UserDto } from 'libs/model/user/user.dto';
 
 @Controller('auth')

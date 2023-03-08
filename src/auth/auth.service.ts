@@ -1,12 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { compare } from 'bcrypt'
-import { SpotifyService } from 'src/spotify/spotify.service';
 import { DatabaseService } from 'libs/database/database.service';
 import { JwtService } from '@nestjs/jwt';
 import { Knex } from 'knex';
-import { UserDto, UserPayload } from 'libs/model/user/user.dto';
-import { access } from 'fs';
-import { sign, verify } from 'crypto';
+import { UserPayload } from 'libs/model/user/user.dto';
 
 
 @Injectable()
@@ -47,11 +44,4 @@ export class AuthService {
       return 'Password does not match';
     }
   }
-/* 
-  private async newAccessToken(user: UserDto){
-    return accessToken: sign(){
-      accountID: user.accountId
-    },
-    process.env.SECRET
-  } */
 }
