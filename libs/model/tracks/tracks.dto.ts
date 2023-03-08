@@ -1,5 +1,5 @@
 export class TrackDto {
-    trackNumber : number
+    id : number
     trackTitle : string
     artist : string
     description : string
