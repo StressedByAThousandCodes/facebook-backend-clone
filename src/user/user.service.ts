@@ -7,6 +7,7 @@ import { DatabaseService } from 'libs/database/database.service';
 import { UpdateUserDto, UserDto, UserPayload } from 'libs/model/user/user.dto';
 
 
+
 const SALT_WORK_FACTOR = 10;
 
 
@@ -79,29 +80,26 @@ export class UserService {
     ;
   }
 
-  async findUser(id : number) {
+  findUser(id : number) {
     
-    const user = await this.db
+    return this.db
     .connection('user')
     .select('id', 'firstName', 'lastName', 'email')
     .where({id})
     .then((rows) => rows[0])
     ;
-  
-    return user;
+
   }
 
-  async search(name: string) {
-    
-    const user = await this.db
+  search(name: string) {
+    return this.db
     .connection('user')
     .select('firstName', 'lastName', 'email')
-    .where({firstName: name})
-    .orWhere({lastName: name})
+    .whereILike('firstName', `%${name}%`)
+    .orWhereILike('lastName', `%${name}%`)
     .then((rows) => rows[0])
     ;
-  
-    return user;
+
   }
 
   update(id: number, user: UpdateUserDto) {
