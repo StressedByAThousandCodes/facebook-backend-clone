@@ -1,10 +1,10 @@
 import { Body, Controller, Post, Request, Get, Put, Param, Delete, UseGuards } from '@nestjs/common';
-import { HomeService } from './home.service';
+import { PostService } from './post.service';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('home')
-export class HomeController {
-  constructor(private readonly homeService: HomeService) {}
+export class PostController {
+  constructor(private readonly homeService: PostService) {}
 
   @UseGuards(AuthGuard('jwt'))
   @Post('post')

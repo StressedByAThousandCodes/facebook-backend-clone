@@ -5,7 +5,8 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { DatabaseModule } from 'libs/database/database.module';
 import { AuthModule } from './auth/auth.module';
-import { HomeModule } from './home/home.module';
+import { HomeModule } from './post/post.module';
+//import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [UserModule,
@@ -13,6 +14,7 @@ import { HomeModule } from './home/home.module';
     DatabaseModule,
     AuthModule,
     HomeModule,
+    //CommentModule,
     
   ],
   controllers: [AppController],
