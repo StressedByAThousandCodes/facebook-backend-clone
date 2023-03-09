@@ -8,7 +8,7 @@ export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
   @UseGuards(AuthGuard('jwt'))
-  @Post('add-comment')
+  @Post()
   comment(@Body() comment: CommentDto, @Request () request){
 
     const userId = request.user.id;
