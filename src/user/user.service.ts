@@ -91,6 +91,19 @@ export class UserService {
     return user;
   }
 
+  async search(name: string) {
+    
+    const user = await this.db
+    .connection('user')
+    .select('firstName', 'lastName', 'email')
+    .where({firstName: name})
+    .orWhere({lastName: name})
+    .then((rows) => rows[0])
+    ;
+  
+    return user;
+  }
+
   update(id: number, user: UpdateUserDto) {
     return this.db
     .connection('user')

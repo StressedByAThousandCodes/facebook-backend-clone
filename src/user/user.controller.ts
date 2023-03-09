@@ -28,10 +28,18 @@ export class UserController {
   }
 
   @UseGuards(AuthGuard('jwt'))
+  @Get('search')
+  findUserByName(@Body() body: any) {
+    return this.userService.search(body.name);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   findOneUser(@Param('id') id: number) {
     return this.userService.findUser(id);
   }
+
+  
 
   @UseGuards(AuthGuard('jwt'))
   @Put()
