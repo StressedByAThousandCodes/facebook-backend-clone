@@ -24,9 +24,9 @@ export class CommentController {
 
   @UseGuards(AuthGuard('jwt'))
   @Put()
-  editComment(@Request() request, @Body() comment: CommentDto){
+  editComment(@Request() request, @Body() body){
     const id = request.user.id;
-    return this.commentService.editComment(id, comment.comment);
+    return this.commentService.editComment(id, body.comment);
   }
 
   @UseGuards(AuthGuard('jwt'))
