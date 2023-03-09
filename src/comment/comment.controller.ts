@@ -23,14 +23,16 @@ export class CommentController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Put(':id')
-  editComment(@Param('id') id: number, @Body() body: string){
+  @Put()
+  editComment(@Request() request, @Body() body: string){
+    const id = request.user.id;
     return this.commentService.editComment(id, body);
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Delete(':id')
-  deleteComment(@Param('id') id : number){
+  @Delete()
+  deleteComment(@Request() request){
+    const id = request.user.id;
     return this.commentService.deleteComment(id);
   }
 }
