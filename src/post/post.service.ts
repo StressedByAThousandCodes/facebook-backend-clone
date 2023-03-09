@@ -38,15 +38,6 @@ export class PostService {
     }
 
     editPostById(id: number, post: string){
-
-        const exist = this.db
-        .connection('post')
-        .select()
-        .where({id})
-
-        if(!exist){
-            return 'This content does not exist'
-        }
         
         return this.db
         .connection('post')

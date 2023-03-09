@@ -5,11 +5,11 @@ import { AuthGuard } from '@nestjs/passport'
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly spotifyService: UserService) {}
+  constructor(private readonly userService: UserService) {}
 
   @Post()
   createUser(@Body() user: UserDto) {
-    return this.spotifyService.create(user);
+    return this.userService.create(user);
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -18,31 +18,33 @@ export class UserController {
 
     const userId = request.user.id;
 
-    return this.spotifyService.currentUser(userId);
+    return this.userService.currentUser(userId);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
   findAllUser() {
-    return this.spotifyService.findAll();
+    return this.userService.findAll();
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get('find-user')
-  findOneUser(@Body() body) {
-    return this.spotifyService.findOne(body.firstName);
+  @Get(':id')
+  findOneUser(@Param('id') id: number) {
+    return this.userService.findUser(id);
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Put(':id')
-  updateUser(@Param('id') id: number, @Body() user: UpdateUserDto) {
-    return this.spotifyService.update(id, user);
+  @Put()
+  updateUser(@Request() request, @Body() user: UpdateUserDto) {
+    const id = request.user.id; 
+    return this.userService.update(id, user);
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Delete(':id')
-  removeUser(@Param('id') id: string) {
-    return this.spotifyService.remove(+id);
+  @Delete()
+  removeUser(@Request() request) {
+    const userId = request.user.id;
+    return this.userService.remove(userId);
   }
 
 }

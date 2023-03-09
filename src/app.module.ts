@@ -7,6 +7,7 @@ import { DatabaseModule } from 'libs/database/database.module';
 import { AuthModule } from './auth/auth.module';
 import { PostModule } from './post/post.module';
 
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [UserModule,
@@ -15,6 +16,7 @@ import { PostModule } from './post/post.module';
     AuthModule,
     PostModule,
 
+    CommentModule,
     
   ],
   controllers: [AppController],
