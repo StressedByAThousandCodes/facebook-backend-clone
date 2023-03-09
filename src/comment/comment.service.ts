@@ -30,7 +30,7 @@ export class CommentService {
         return this.db
         .connection('comment')
         .select()
-        .where({ ref_post_id : ref_post_id })
+        .where({ ref_post_id})
     }
 
     editComment(id: number, comment: string){
