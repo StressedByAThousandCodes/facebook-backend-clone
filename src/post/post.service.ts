@@ -10,7 +10,7 @@ export class PostService {
         private db: DatabaseService,
     ) { this.dbInstance = this.db.getInstance(); }
 
-    createPost(content:string, id:number){
+    async createPost(content:string, id:number){
 
         const post = {
             content: content,

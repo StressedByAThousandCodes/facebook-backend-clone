@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Knex } from 'knex';
 import { DatabaseService } from 'libs/database/database.service';
-import { UserDto } from 'libs/model/user/user.dto';
+import { CommentDto } from 'libs/model/comment/comment.dto';
 
 @Injectable()
 export class CommentService {
@@ -11,12 +11,11 @@ export class CommentService {
         private db: DatabaseService,
     ) { this.dbInstance = this.db.getInstance(); }
     
-    createComment( id: number, user: string, comment: string){
+    createComment( id: number, user: CommentDto){
 
         const content = {
-            userId: id,
-            user: user,
-            comment: comment,
+            ... user,
+            from_user: id
         }  
 
         return this.db
@@ -26,18 +25,27 @@ export class CommentService {
     
     }
 
-    getComment(id: number){
+    getComment( ref_post_id: number ){
+        
         return this.db
         .connection('comment')
         .select()
-        .where({user: id})
+        .where({ ref_post_id : ref_post_id })
     }
 
     editComment(id: number, comment: string){
+        
+        return this.db
+        .connection('comment')
+        .update(comment)
+        .where({id})
 
     }
 
     deleteComment(id:number){
-
+        return this.db
+        .connection('comment')
+        .delete()
+        .where({id})
     }
 }

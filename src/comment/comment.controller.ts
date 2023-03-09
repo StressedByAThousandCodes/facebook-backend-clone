@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
 import { CommentService } from './comment.service';
 import { AuthGuard } from '@nestjs/passport';
-import { UserDto } from 'libs/model/user/user.dto';
+import { CommentDto } from 'libs/model/comment/comment.dto';
 
 @Controller('comment')
 export class CommentController {
@@ -9,18 +9,17 @@ export class CommentController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post('add-comment')
-  comment(@Body() comment, @Request () request){
+  comment(@Body() comment: CommentDto, @Request () request){
 
     const userId = request.user.id;
-    const name = request.user.firstName +' ' + request.user.lastName;
-;
-    return this.commentService.createComment( userId, name, comment.comment );
+
+    return this.commentService.createComment( userId, comment );
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get()
-  getCommentsByPostId(@Body() comments){
-    return this.commentService.getComment(comments);
+  @Get(':id')
+  getCommentsByPostId(@Param('id') id: number){
+    return this.commentService.getComment(id);
   }
 
   @UseGuards(AuthGuard('jwt'))

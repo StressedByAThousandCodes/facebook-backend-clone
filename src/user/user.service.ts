@@ -79,32 +79,23 @@ export class UserService {
     ;
   }
 
-  findOne(accountId : string) {
-    return this.db
-    .connection('user')
-    .select()
-    .where({accountId})
-    .then((rows) => rows[0])
-    ;
-  }
-
-  async findUser(accountId : number) {
+  async findUser(id : number) {
     
-    const test = await this.db
+    const user = await this.db
     .connection('user')
-    .select('accountId', 'username', 'email')
-    .where({accountId})
+    .select('id', 'firstName', 'lastName', 'email')
+    .where({id})
     .then((rows) => rows[0])
     ;
   
-    return test
+    return user;
   }
 
   update(id: number, user: UpdateUserDto) {
     return this.db
     .connection('user')
     .update(user)
-    .where({accountId: id})
+    .where({id})
     ;
   }
 
@@ -112,7 +103,7 @@ export class UserService {
     return this.db
     .connection('user')
     .delete()
-    .where({accountId: id})
+    .where({id})
     ;
   }
 
