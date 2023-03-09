@@ -4,3 +4,7 @@ export class CommentDto {
     comment: string
     ref_post_id: number
 }
+
+export class UpdateCommentDto {
+    comment: string
+}

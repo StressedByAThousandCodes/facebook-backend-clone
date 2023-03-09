@@ -29,16 +29,14 @@ export class PostController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Put()
-  editPostById(@Request() request, @Body() body: string){
-    const id = request.user.id;
+  @Put(':id')
+  editPostById(@Param() id: number, @Body() body: string){
     return this.homeService.editPostById(id, body);
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Delete()
-  deletePost(@Request() request){
-    const id = request.user.id;
+  @Delete(':id')
+  deletePost(@Param('id') id:number){
     return this.homeService.deletePost(id);
   }
 
