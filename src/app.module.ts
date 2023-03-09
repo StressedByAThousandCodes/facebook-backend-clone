@@ -5,7 +5,8 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { DatabaseModule } from 'libs/database/database.module';
 import { AuthModule } from './auth/auth.module';
-import { HomeModule } from './home/home.module';
+import { PostModule } from './post/post.module';
+
 import { CommentModule } from './comment/comment.module';
 
 @Module({
@@ -13,7 +14,8 @@ import { CommentModule } from './comment/comment.module';
     ConfigModule.forRoot({isGlobal : true}),
     DatabaseModule,
     AuthModule,
-    HomeModule,
+    PostModule,
+
     CommentModule,
     
   ],

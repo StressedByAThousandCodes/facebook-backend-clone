@@ -3,7 +3,7 @@ import { Knex } from 'knex';
 import { DatabaseService } from 'libs/database/database.service';
 
 @Injectable()
-export class HomeService {
+export class PostService {
 
     private dbInstance: Knex;
     constructor(
