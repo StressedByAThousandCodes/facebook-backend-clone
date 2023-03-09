@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards, Request } f
 import { UserService } from './user.service';
 import { UpdateUserDto, UserDto } from 'libs/model/user/user.dto';
 import { AuthGuard } from '@nestjs/passport'
-import { request } from 'express';
 
 @Controller('user')
 export class UserController {
