@@ -15,9 +15,7 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Get('current-user')
   currentUser(@Request() request){
-
     const userId = request.user.id;
-
     return this.userService.currentUser(userId);
   }
 
@@ -39,8 +37,6 @@ export class UserController {
     return this.userService.findUser(id);
   }
 
-  
-
   @UseGuards(AuthGuard('jwt'))
   @Put()
   updateUser(@Request() request, @Body() user: UpdateUserDto) {
@@ -54,5 +50,4 @@ export class UserController {
     const userId = request.user.id;
     return this.userService.remove(userId);
   }
-
 }

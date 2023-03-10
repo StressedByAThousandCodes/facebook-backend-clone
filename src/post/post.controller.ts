@@ -9,9 +9,7 @@ export class PostController {
   @UseGuards(AuthGuard('jwt'))
   @Post('post')
   post(@Body() body, @Request () request){
-
     const userId = request.user.id;
-
     return this.homeService.createPost(body.content, userId);
   }
 
