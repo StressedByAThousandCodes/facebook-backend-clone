@@ -23,6 +23,12 @@ export class CommentController {
   }
 
   @UseGuards(AuthGuard('jwt'))
+  @Get(':id')
+  getReplyByCommentId(@Param('id') id: number){
+    return this.commentService.getReply(id);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
   @Put(':id')
   editComment(@Param('id') id: number, @Body() body: UpdateCommentDto){
     return this.commentService.editComment(id, body);
