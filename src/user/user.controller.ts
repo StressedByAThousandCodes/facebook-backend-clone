@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards, Request } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UpdateUserDto, UserDto } from 'libs/model/user/user.dto';
+import { SearchUserDto, UpdateUserDto, UserDto } from 'libs/model/user/user.dto';
 import { AuthGuard } from '@nestjs/passport'
 
 @Controller('user')
@@ -27,7 +27,7 @@ export class UserController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get('search')
-  findUserByName(@Body() body: any) {
+  findUserByName(@Body() body: SearchUserDto) {
     return this.userService.search(body.name);
   }
 
