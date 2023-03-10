@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards, Request } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UpdateUserDto, UserDto } from 'libs/model/user/user.dto';
+import { SearchUserDto, UpdateUserDto, UserDto } from 'libs/model/user/user.dto';
 import { AuthGuard } from '@nestjs/passport'
 
 @Controller('user')
@@ -15,9 +15,7 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Get('current-user')
   currentUser(@Request() request){
-
     const userId = request.user.id;
-
     return this.userService.currentUser(userId);
   }
 
@@ -25,6 +23,12 @@ export class UserController {
   @Get()
   findAllUser() {
     return this.userService.findAll();
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('search')
+  findUserByName(@Body() body: SearchUserDto) {
+    return this.userService.search(body.name);
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -46,5 +50,4 @@ export class UserController {
     const userId = request.user.id;
     return this.userService.remove(userId);
   }
-
 }

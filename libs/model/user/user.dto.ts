@@ -18,3 +18,7 @@ export class UpdateUserDto {
     firstName : string
     lastName : string
 }
+
+export class SearchUserDto {
+    name: string
+}

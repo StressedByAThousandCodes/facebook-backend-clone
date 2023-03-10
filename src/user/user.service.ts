@@ -2,13 +2,10 @@ import { genSalt, hash } from 'bcrypt'
 import { Knex } from 'knex';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-
 import { DatabaseService } from 'libs/database/database.service';
 import { UpdateUserDto, UserDto, UserPayload } from 'libs/model/user/user.dto';
 
-
 const SALT_WORK_FACTOR = 10;
-
 
 @Injectable()
 export class UserService {
@@ -48,7 +45,6 @@ export class UserService {
     const userDetail = {
       accessToken: this.jwtService.sign(payload)
     }
-
     return userDetail;
   }
 
@@ -58,19 +54,16 @@ export class UserService {
     .connection('user')
     .select()
     .where({id})
-    
+
     const returnProfile = {
       id: userProfile.id,
       firstName: userProfile.firstName,
       lastName: userProfile.lastName,
       email: userProfile.email,
       date: userProfile.date
-
     }
-
     return returnProfile;
   }
-  
 
   findAll() {
     return this.db
@@ -79,16 +72,29 @@ export class UserService {
     ;
   }
 
-  async findUser(id : number) {
-    
-    const user = await this.db
+  findUser(id : number) {
+    return this.db
     .connection('user')
     .select('id', 'firstName', 'lastName', 'email')
     .where({id})
     .then((rows) => rows[0])
     ;
-  
-    return user;
+  }
+
+  async search(name: string) {
+
+    const exist = await this.db
+    .connection('user')
+    .select('firstName', 'lastName', 'email')
+    .whereILike('firstName', `%${name}%`)
+    .orWhereILike('lastName', `%${name}%`)
+    .then((rows) => rows[0])
+    ;
+
+    if(!exist){
+      return 'No matches found.'
+    }
+    return exist;
   }
 
   update(id: number, user: UpdateUserDto) {
@@ -110,9 +116,7 @@ export class UserService {
   async encryptPassword(password: string) {
     const salt = await genSalt(SALT_WORK_FACTOR);
     const passwordHash = await hash(password, salt);
-
     return passwordHash;
-
   }
 
 }
