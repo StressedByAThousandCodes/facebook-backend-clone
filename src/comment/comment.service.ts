@@ -33,6 +33,13 @@ export class CommentService {
         .where({ ref_post_id})
     }
 
+    getReply( ref_comment_id: number ){
+        return this.db
+        .connection('comment')
+        .select()
+        .where({ ref_comment_id})
+    }
+
     editComment(id: number, comment: UpdateCommentDto){
 
         return this.db
