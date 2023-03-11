@@ -38,11 +38,4 @@ export class PostController {
     return this.homeService.deletePost(id);
   }
 
-  /* @UseGuards(AuthGuard('jwt'))
-  @Post('like')
-  likePost(@Request () request){
-    const userId = request.user.id;
-    return this.homeService.createPost(body.content, userId);
-  } */
-
 }
