@@ -7,7 +7,7 @@ export class PostController {
   constructor(private readonly homeService: PostService) {}
 
   @UseGuards(AuthGuard('jwt'))
-  @Post('post')
+  @Post()
   post(@Body() body, @Request () request){
     const userId = request.user.id;
     return this.homeService.createPost(body.content, userId);
@@ -37,5 +37,12 @@ export class PostController {
   deletePost(@Param('id') id:number){
     return this.homeService.deletePost(id);
   }
+
+  /* @UseGuards(AuthGuard('jwt'))
+  @Post('like')
+  likePost(@Request () request){
+    const userId = request.user.id;
+    return this.homeService.createPost(body.content, userId);
+  } */
 
 }
