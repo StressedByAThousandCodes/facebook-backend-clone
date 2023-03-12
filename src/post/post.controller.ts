@@ -15,7 +15,13 @@ export class PostController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  getPostById(@Request() request){
+  getAllPost(){
+    return this.homeService.getAllPosts();
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('current-user')
+  getCurrentUserPosts(@Request() request){
     const userId = request.user.id;
     return this.homeService.getPostsById(userId);
   }
@@ -28,7 +34,7 @@ export class PostController {
 
   @UseGuards(AuthGuard('jwt'))
   @Put(':id')
-  editPostById(@Param() id: number, @Body() body: string){
+  editPostById(@Param('id') id: number, @Body() body: string){
     return this.homeService.editPostById(id, body);
   }
 

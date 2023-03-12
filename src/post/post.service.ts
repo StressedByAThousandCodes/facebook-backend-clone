@@ -23,6 +23,13 @@ export class PostService {
         .returning('*')
     }
 
+    getAllPosts(){
+        return this.db
+        .connection('post')
+        .select()
+    ;
+    }
+
     getPostsById(id : number){
         return this.db
         .connection('post')
