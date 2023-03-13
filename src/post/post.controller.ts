@@ -2,12 +2,12 @@ import { Body, Controller, Post, Request, Get, Put, Param, Delete, UseGuards } f
 import { PostService } from './post.service';
 import { AuthGuard } from '@nestjs/passport';
 
-@Controller('post')
+@Controller('user-feed')
 export class PostController {
   constructor(private readonly homeService: PostService) {}
 
   @UseGuards(AuthGuard('jwt'))
-  @Post('post')
+  @Post()
   post(@Body() body, @Request () request){
     const userId = request.user.id;
     return this.homeService.createPost(body.content, userId);
@@ -15,7 +15,7 @@ export class PostController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  getPostById(@Request() request){
+  getCurrentUserPosts(@Request() request){
     const userId = request.user.id;
     return this.homeService.getPostsById(userId);
   }
@@ -28,7 +28,7 @@ export class PostController {
 
   @UseGuards(AuthGuard('jwt'))
   @Put(':id')
-  editPostById(@Param() id: number, @Body() body: string){
+  editPostById(@Param('id') id: number, @Body() body: string){
     return this.homeService.editPostById(id, body);
   }
 
