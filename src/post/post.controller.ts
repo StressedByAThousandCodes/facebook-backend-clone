@@ -4,38 +4,58 @@ import { AuthGuard } from '@nestjs/passport';
 
 @Controller('user-feed')
 export class PostController {
-  constructor(private readonly homeService: PostService) {}
+  constructor(private readonly postService: PostService) {}
 
   @UseGuards(AuthGuard('jwt'))
   @Post()
   post(@Body() body, @Request () request){
     const userId = request.user.id;
-    return this.homeService.createPost(body.content, userId);
+    return this.postService.createPost(body.content, userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post(':id')
+  addLikes(@Param('id') post_id:number, @Request () request){
+    const userId = request.user.id;
+    return this.postService.like(post_id, userId);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
   getCurrentUserPosts(@Request() request){
     const userId = request.user.id;
-    return this.homeService.getPostsById(userId);
+    return this.postService.getPostsById(userId);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   getOnePost(@Param('id') id: number ){
-    return this.homeService.getOnePost(id);
+    return this.postService.getOnePost(id);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('likes/:id')
+  likes(@Param('id') post_id: number){
+    return this.postService.getLikes(post_id);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Put(':id')
   editPostById(@Param('id') id: number, @Body() body: string){
-    return this.homeService.editPostById(id, body);
+    return this.postService.editPostById(id, body);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   deletePost(@Param('id') id:number){
-    return this.homeService.deletePost(id);
+    return this.postService.deletePost(id);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Delete('likes/:id')
+  dislike(@Param('id') id: number, @Request() request){
+    const userId = request.user.id;
+    return this.postService.dislike(id,userId);
   }
 
 }

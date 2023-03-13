@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { count } from 'console';
 import { Knex } from 'knex';
 import { DatabaseService } from 'libs/database/database.service';
 
@@ -23,6 +24,14 @@ export class PostService {
         .returning('*')
     }
 
+    like(post_id:number, ref_user_id:number){
+
+        return this.db
+        .connection('likes')
+        .insert({post_id, ref_user_id})
+        .returning('*')
+    }
+
     getPostsById(id : number){
         return this.db
         .connection('post')
@@ -35,6 +44,13 @@ export class PostService {
         .connection('post')
         .select()
         .where({id: postId})
+    }
+
+    getLikes(post_id: number){
+        return this.db
+        .connection('likes')
+        .count()
+        .where({post_id})
     }
 
     editPostById(id: number, post: string){
@@ -51,5 +67,13 @@ export class PostService {
         .connection('post')
         .delete()
         .where({id})
+    }
+
+    dislike(id:number, ref_user_id:number){
+        return this.db
+        .connection('likes')
+        .delete()
+        .where({id})
+        .andWhere({ref_user_id})
     }
 }
