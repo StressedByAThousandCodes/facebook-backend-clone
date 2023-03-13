@@ -34,8 +34,12 @@ export class PostService {
     getPostsById(id : number){
         return this.db
         .connection('post')
-        .select()
-        .where({user: id})
+        .select(this.dbInstance.raw(`
+        post.*, (
+            SELECT count(*) FROM likes WHERE post_id = post.id
+        ) likes
+        `))
+        .where({user: id});
     }
 
     getOnePost(postId: number){
@@ -48,8 +52,9 @@ export class PostService {
     getLikes(post_id: number){
         return this.db
         .connection('likes')
-        .count()
+        .select()
         .where({post_id})
+        .count()
     }
 
     editPostById(id: number, post: string){
@@ -68,11 +73,11 @@ export class PostService {
         .where({id})
     }
 
-    dislike(id:number, ref_user_id:number){
+    unlike(post_id:number, ref_user_id:number){
         return this.db
         .connection('likes')
         .delete()
-        .where({id})
+        .where({post_id})
         .andWhere({ref_user_id})
     }
 }

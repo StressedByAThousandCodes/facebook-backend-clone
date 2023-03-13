@@ -1,6 +1,7 @@
 import { Body, Controller, Post, Request, Get, Put, Param, Delete, UseGuards } from '@nestjs/common';
 import { PostService } from './post.service';
 import { AuthGuard } from '@nestjs/passport';
+import { UserPostDto } from 'libs/model/post/post.dto';
 
 @Controller('user-feed')
 export class PostController {
@@ -22,7 +23,7 @@ export class PostController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  getCurrentUserPosts(@Request() request){
+  getCurrentUserPosts(@Request() request):Promise <UserPostDto>{
     const userId = request.user.id;
     return this.postService.getPostsById(userId);
   }
@@ -53,9 +54,9 @@ export class PostController {
 
   @UseGuards(AuthGuard('jwt'))
   @Delete('likes/:id')
-  dislike(@Param('id') id: number, @Request() request){
+  unlike(@Param('id') id: number, @Request() request){
     const userId = request.user.id;
-    return this.postService.dislike(id,userId);
+    return this.postService.unlike(id,userId);
   }
 
 }
