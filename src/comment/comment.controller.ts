@@ -23,9 +23,9 @@ export class CommentController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get(':id')
-  getReplyByCommentId(@Param('id') id: number){
-    return this.commentService.getReply(id);
+  @Get(':post_id/:id')
+  getReplyByCommentId(@Param('post_id') ref_post_id: number, @Param('id') ref_comment_id : number){
+    return this.commentService.getReply(ref_post_id, ref_comment_id);
   }
 
   @UseGuards(AuthGuard('jwt'))
