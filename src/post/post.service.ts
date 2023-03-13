@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { count } from 'console';
 import { Knex } from 'knex';
 import { DatabaseService } from 'libs/database/database.service';
 
