@@ -2,7 +2,7 @@ import { Body, Controller, Post, Request, Get, Put, Param, Delete, UseGuards } f
 import { PostService } from './post.service';
 import { AuthGuard } from '@nestjs/passport';
 
-@Controller('post')
+@Controller('user-feed')
 export class PostController {
   constructor(private readonly homeService: PostService) {}
 
@@ -15,12 +15,6 @@ export class PostController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  getAllPost(){
-    return this.homeService.getAllPosts();
-  }
-
-  @UseGuards(AuthGuard('jwt'))
-  @Get('current-user')
   getCurrentUserPosts(@Request() request){
     const userId = request.user.id;
     return this.homeService.getPostsById(userId);
