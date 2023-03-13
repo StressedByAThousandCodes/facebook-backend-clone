@@ -37,7 +37,8 @@ export class CommentService {
         return this.db
         .connection('comment')
         .select()
-        .where({ ref_post_id, ref_comment_id })
+        .where({ ref_post_id })
+        .andWhere({ ref_comment_id })
     }
 
     editComment(id: number, comment: UpdateCommentDto){
