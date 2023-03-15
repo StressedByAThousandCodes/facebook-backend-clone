@@ -13,7 +13,7 @@ import { UserService } from 'src/user/user.service';
   providers: [AuthService, JwtStrategy, UserService],
   imports: [UserModule,
   JwtModule.register({
-    secret : "secret",
+    secret : process.env.JWT_SECRET,
     signOptions: {expiresIn: '365d'}
   }),
   DatabaseModule,
