@@ -23,7 +23,7 @@ export class PostController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  getCurrentUserPosts(@Request() request):Promise <UserPostDto>{
+  getCurrentUserPosts(@Request() request):Promise <UserPostDto[]>{
     const userId = request.user.id;
     return this.postService.getPostsById(userId);
   }
