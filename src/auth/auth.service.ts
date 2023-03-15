@@ -23,7 +23,7 @@ export class AuthService {
     ;
    
     if(!user){
-      throw new UnauthorizedException('Email does not match.');;
+      throw new UnauthorizedException('Email does not match.');
     }
 
     const payload: UserPayload = {
