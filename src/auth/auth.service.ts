@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { compare } from 'bcrypt'
 import { DatabaseService } from 'libs/database/database.service';
 import { JwtService } from '@nestjs/jwt';
@@ -21,9 +21,9 @@ export class AuthService {
     .select()
     .where({email})
     ;
-    console.log(user)
+   
     if(!user){
-      return 'User doesnt exist';
+      throw new UnauthorizedException('Email does not match.');;
     }
 
     const payload: UserPayload = {
@@ -42,7 +42,7 @@ export class AuthService {
       };
     }
     else{
-      return 'Password does not match';
+      throw new UnauthorizedException('Password does not match.');
     }
   }
 }
