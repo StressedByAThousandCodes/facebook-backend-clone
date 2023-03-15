@@ -35,7 +35,6 @@ export class AuthService {
     }
 
     const isMatch = await compare(password, user.password)
-    console.log(isMatch);
 
     if(isMatch){
       return {

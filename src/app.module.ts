@@ -10,8 +10,9 @@ import { PostModule } from './post/post.module';
 import { CommentModule } from './comment/comment.module';
 
 @Module({
-  imports: [UserModule,
+  imports: [
     ConfigModule.forRoot({isGlobal : true}),
+    UserModule,
     DatabaseModule,
     AuthModule,
     PostModule,
