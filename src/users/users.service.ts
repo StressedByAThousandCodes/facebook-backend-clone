@@ -1,6 +1,6 @@
 import { genSalt, hash } from 'bcrypt'
 import { Knex } from 'knex';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { DatabaseService } from 'libs/database/database.service';
 import { UpdateUserDto, UserDto, UserPayload } from 'libs/model/user/user.dto';
@@ -24,7 +24,11 @@ export class UserService {
     ;
 
     if(exist){
-      return 'User already exist';
+      throw new HttpException({
+        status: HttpStatus.BAD_REQUEST,
+        error: 'The account you are trying to create already exist.'
+      },
+      HttpStatus.BAD_REQUEST);
     }
     const encrypt = await this.encryptPassword(user.password)
     user.password = encrypt;
@@ -72,13 +76,22 @@ export class UserService {
     ;
   }
 
-  findUser(id : number) {
-    return this.db
+  async findUser(id : number) {
+    const user = await this.db
     .connection('user')
-    .select('id', 'firstName', 'lastName', 'email')
+    .select()
     .where({id})
     .then((rows) => rows[0])
     ;
+
+    if(!user){
+      throw new HttpException({
+        status: HttpStatus.NOT_FOUND,
+        error: 'The account you are looking for does not exist'
+      },
+      HttpStatus.NOT_FOUND);
+    }
+    return user;
   }
 
   async search(name: string) {
@@ -92,12 +105,31 @@ export class UserService {
     ;
 
     if(!exist){
-      return 'No matches found.'
+      throw new HttpException({
+        status: HttpStatus.NOT_FOUND,
+        error: 'The account you are looking for does not exist'
+      },
+      HttpStatus.NOT_FOUND);
     }
     return exist;
   }
 
-  update(id: number, user: UpdateUserDto) {
+  async update(id: number, user: UpdateUserDto) {
+    const exist = await this.db
+    .connection('user')
+    .select()
+    .where({id})
+    .then((rows) => rows[0])
+    ;
+
+    if(!exist){
+      throw new HttpException({
+        status: HttpStatus.NOT_FOUND,
+        error: 'The account you are trying to update does not exist'
+      },
+      HttpStatus.NOT_FOUND);
+    }
+
     return this.db
     .connection('user')
     .update(user)
@@ -105,7 +137,22 @@ export class UserService {
     ;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
+    const user = await this.db
+    .connection('user')
+    .select()
+    .where({id})
+    .then((rows) => rows[0])
+    ;
+
+    if(!user){
+      throw new HttpException({
+        status: HttpStatus.NOT_FOUND,
+        error: 'The id you are trying to delete does not exist.'
+      },
+      HttpStatus.NOT_FOUND);
+      
+    }
     return this.db
     .connection('user')
     .delete()
