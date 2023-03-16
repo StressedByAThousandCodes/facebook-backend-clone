@@ -24,10 +24,10 @@ export class AuthService {
    
     if(!user){
       throw new HttpException({
-        status: HttpStatus.UNAUTHORIZED,
-        error: 'Email does not match.'
+        status: HttpStatus.NOT_FOUND,
+        error: 'Invalid Email'
       }, 
-      HttpStatus.UNAUTHORIZED)
+      HttpStatus.NOT_FOUND)
     }
 
     const payload: UserPayload = {
@@ -47,10 +47,10 @@ export class AuthService {
     }
     else{
       throw new HttpException({
-        status: HttpStatus.UNAUTHORIZED,
-        error: 'Password does not match.'
+        status: HttpStatus.NOT_FOUND,
+        error: 'Invalid Password'
       }, 
-      HttpStatus.UNAUTHORIZED)
+      HttpStatus.NOT_FOUND)
       
     }
   }
