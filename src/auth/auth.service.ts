@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { compare } from 'bcrypt'
 import { DatabaseService } from 'libs/database/database.service';
 import { JwtService } from '@nestjs/jwt';
@@ -23,7 +23,11 @@ export class AuthService {
     ;
    
     if(!user){
-      throw new UnauthorizedException('Email does not match.');
+      throw new HttpException({
+        status: HttpStatus.UNAUTHORIZED,
+        error: 'Email does not match.'
+      }, 
+      HttpStatus.UNAUTHORIZED)
     }
 
     const payload: UserPayload = {
@@ -42,7 +46,12 @@ export class AuthService {
       };
     }
     else{
-      throw new UnauthorizedException('Password does not match.');
+      throw new HttpException({
+        status: HttpStatus.UNAUTHORIZED,
+        error: 'Password does not match.'
+      }, 
+      HttpStatus.UNAUTHORIZED)
+      
     }
   }
 }
