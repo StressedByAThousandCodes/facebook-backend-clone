@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { compare } from 'bcrypt'
 import { DatabaseService } from 'libs/database/database.service';
 import { JwtService } from '@nestjs/jwt';
@@ -21,9 +21,13 @@ export class AuthService {
     .select()
     .where({email})
     ;
-    console.log(user)
+   
     if(!user){
-      return 'User doesnt exist';
+      throw new HttpException({
+        status: HttpStatus.NOT_FOUND,
+        error: 'Invalid Email'
+      }, 
+      HttpStatus.NOT_FOUND)
     }
 
     const payload: UserPayload = {
@@ -42,7 +46,12 @@ export class AuthService {
       };
     }
     else{
-      return 'Password does not match';
+      throw new HttpException({
+        status: HttpStatus.NOT_FOUND,
+        error: 'Invalid Password'
+      }, 
+      HttpStatus.NOT_FOUND)
+      
     }
   }
 }
