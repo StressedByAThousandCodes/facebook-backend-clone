@@ -103,7 +103,7 @@ export class UserService {
     .orWhereILike('lastName', `%${name}%`)
     ;
 
-    if(exist.length === 0){
+    if(!exist.length){
       throw new HttpException({
         status: HttpStatus.NOT_FOUND,
         error: 'Match Not Found'
