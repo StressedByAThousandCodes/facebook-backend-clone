@@ -52,7 +52,7 @@ export class UserService {
     return userDetail;
   }
 
-  async currentUser(id: number){
+  async currentUser(id: string){
 
     const [userProfile] = await this.db
     .connection('user')
@@ -76,7 +76,7 @@ export class UserService {
     ;
   }
 
-  async findUser(id : number) {
+  async findUser(id : string) {
     const user = await this.db
     .connection('user')
     .select()
@@ -113,7 +113,7 @@ export class UserService {
     return exist;
   }
 
-  async update(id: number, user: UpdateUserDto) {
+  async update(id: string, user: UpdateUserDto) {
     const exist = await this.db
     .connection('user')
     .select()
@@ -136,7 +136,7 @@ export class UserService {
     ;
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const user = await this.db
     .connection('user')
     .select()

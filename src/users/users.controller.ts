@@ -29,19 +29,19 @@ export class UserController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get(':id')
-  findOneUser(@Param('id') id: number) {
+  findOneUser(@Param('id') id: string) {
     return this.userService.findUser(id);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Put(':id')
-  updateUser(@Param('id') id:number, @Body() user: UpdateUserDto) { 
+  updateUser(@Param('id') id:string, @Body() user: UpdateUserDto) { 
     return this.userService.update(id, user);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
-  removeUser(@Param('id') id:number) {
+  removeUser(@Param('id') id:string) {
     return this.userService.remove(id);
   }
 }

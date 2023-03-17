@@ -1,5 +1,5 @@
 export class UserDto {
-    id : number
+    id : string
     firstName : string
     lastName : string
     email : string
@@ -8,7 +8,7 @@ export class UserDto {
 
 
 export class UserPayload {
-    id : number
+    id : string
     firstName : string
     lastName : string
     email : string
