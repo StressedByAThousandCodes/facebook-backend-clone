@@ -26,7 +26,7 @@ export class UserService {
     if(exist){
       throw new HttpException({
         status: HttpStatus.BAD_REQUEST,
-        error: 'The account you are trying to create already exist.'
+        error: 'Email Already Exist'
       },
       HttpStatus.BAD_REQUEST);
     }
@@ -52,7 +52,7 @@ export class UserService {
     return userDetail;
   }
 
-  async currentUser(id: number){
+  async currentUser(id: string){
 
     const [userProfile] = await this.db
     .connection('user')
@@ -72,14 +72,14 @@ export class UserService {
   findAll() {
     return this.db
     .connection('user')
-    .select()
+    .select('id', 'firstName','lastName','email','createdAt','updatedAt')
     ;
   }
 
-  async findUser(id : number) {
+  async findUser(id : string) {
     const user = await this.db
     .connection('user')
-    .select()
+    .select('id', 'firstName','lastName','email','createdAt','updatedAt')
     .where({id})
     .then((rows) => rows[0])
     ;
@@ -87,7 +87,7 @@ export class UserService {
     if(!user){
       throw new HttpException({
         status: HttpStatus.NOT_FOUND,
-        error: 'The account you are looking for does not exist'
+        error: 'Match Not Found'
       },
       HttpStatus.NOT_FOUND);
     }
@@ -101,20 +101,19 @@ export class UserService {
     .select('firstName', 'lastName', 'email')
     .whereILike('firstName', `%${name}%`)
     .orWhereILike('lastName', `%${name}%`)
-    .then((rows) => rows[0])
     ;
 
-    if(!exist){
+    if(!exist.length){
       throw new HttpException({
         status: HttpStatus.NOT_FOUND,
-        error: 'The account you are looking for does not exist'
+        error: 'Match Not Found'
       },
       HttpStatus.NOT_FOUND);
     }
     return exist;
   }
 
-  async update(id: number, user: UpdateUserDto) {
+  async update(id: string, user: UpdateUserDto) {
     const exist = await this.db
     .connection('user')
     .select()
@@ -125,7 +124,7 @@ export class UserService {
     if(!exist){
       throw new HttpException({
         status: HttpStatus.NOT_FOUND,
-        error: 'The account you are trying to update does not exist'
+        error: 'Match Not Found'
       },
       HttpStatus.NOT_FOUND);
     }
@@ -137,7 +136,7 @@ export class UserService {
     ;
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const user = await this.db
     .connection('user')
     .select()
@@ -148,7 +147,7 @@ export class UserService {
     if(!user){
       throw new HttpException({
         status: HttpStatus.NOT_FOUND,
-        error: 'The id you are trying to delete does not exist.'
+        error: 'Match Not Found'
       },
       HttpStatus.NOT_FOUND);
       
