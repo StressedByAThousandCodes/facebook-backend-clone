@@ -26,7 +26,7 @@ export class UserService {
     if(exist){
       throw new HttpException({
         status: HttpStatus.BAD_REQUEST,
-        error: 'The account you are trying to create already exist.'
+        error: 'Email Already Exist'
       },
       HttpStatus.BAD_REQUEST);
     }
@@ -72,7 +72,7 @@ export class UserService {
   findAll() {
     return this.db
     .connection('user')
-    .select()
+    .select('id', 'firstName','lastName','email','createdAt','updatedAt')
     ;
   }
 
@@ -87,7 +87,7 @@ export class UserService {
     if(!user){
       throw new HttpException({
         status: HttpStatus.NOT_FOUND,
-        error: 'The account you are looking for does not exist'
+        error: 'Match Not Found'
       },
       HttpStatus.NOT_FOUND);
     }
@@ -101,13 +101,12 @@ export class UserService {
     .select('firstName', 'lastName', 'email')
     .whereILike('firstName', `%${name}%`)
     .orWhereILike('lastName', `%${name}%`)
-    .then((rows) => rows[0])
     ;
 
-    if(!exist){
+    if(exist.length === 0){
       throw new HttpException({
         status: HttpStatus.NOT_FOUND,
-        error: 'The account you are looking for does not exist'
+        error: 'Match Not Found'
       },
       HttpStatus.NOT_FOUND);
     }
@@ -125,7 +124,7 @@ export class UserService {
     if(!exist){
       throw new HttpException({
         status: HttpStatus.NOT_FOUND,
-        error: 'The account you are trying to update does not exist'
+        error: 'Match Not Found'
       },
       HttpStatus.NOT_FOUND);
     }
@@ -148,7 +147,7 @@ export class UserService {
     if(!user){
       throw new HttpException({
         status: HttpStatus.NOT_FOUND,
-        error: 'The id you are trying to delete does not exist.'
+        error: 'Match Not Found'
       },
       HttpStatus.NOT_FOUND);
       
