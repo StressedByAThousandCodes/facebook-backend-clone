@@ -79,7 +79,7 @@ export class UserService {
   async findUser(id : string) {
     const user = await this.db
     .connection('user')
-    .select()
+    .select('id', 'firstName','lastName','email','createdAt','updatedAt')
     .where({id})
     .then((rows) => rows[0])
     ;
