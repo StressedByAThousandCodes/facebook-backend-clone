@@ -1,6 +1,5 @@
 import { Knex } from 'knex';
 import { DatabaseService } from 'libs/database/database.service';
-import { FriendsDto } from 'libs/model/friends/friends.dto';
 
 import { Injectable } from '@nestjs/common';
 
@@ -42,14 +41,18 @@ export class FriendsService {
         .connection('user')
         .select('firstName','lastName','email',)
         .join('friends', {'friends.to_user':'user.id'})
-        .whereILike('status', `%${status}%`)
+        .whereILike('status', 'Pending')
+        ;
     }
 
     getAllFriends(id: string){
         return this.db
         .connection('user')
-        .select('firstName','lastName','email',)
+        .select('to_user','firstName','lastName','email','status')
         .join('friends', {'friends.to_user':'user.id'})
+        .where({from_user:id})
+        .orWhere({to_user:id})
+        ;
     }
 
     acceptRequest(id: string){

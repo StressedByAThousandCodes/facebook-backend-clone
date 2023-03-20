@@ -32,14 +32,18 @@ export class FriendsController {
       const id = request.user.id;
       return this.friendsService.oneFriend(id, name)
     }
-    else if(status){
-      const id = request.user.id;
-      return this.friendsService.requests(id, status)
-    }
     else{
       const id = request.user.id;
       return this.friendsService.getAllFriends(id);
     }
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('/requests')
+  requests(@Request() request,status: string){
+    status = 'Pending';
+    const id = request.user.id;
+    return this.friendsService.requests(id, status)
   }
 
   //Accept Friend Request
