@@ -33,7 +33,6 @@ export class FriendsService {
         .join('friends', {'friends.to_user':'user.id'})
         .whereILike('firstName', `%${name}%`)
         .orWhereILike('lastName', `%${name}%`)
-        .andWhere({id})
         .then((rows) => rows[0])
         ;
     }
@@ -43,7 +42,7 @@ export class FriendsService {
         .connection('user')
         .select('firstName','lastName','email',)
         .join('friends', {'friends.to_user':'user.id'})
-        .whereILike('status', `${status}`)
+        .whereILike('status', `%${status}%`)
     }
 
     getAllFriends(id: string){
