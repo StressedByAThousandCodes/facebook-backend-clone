@@ -63,4 +63,13 @@ export class FriendsService {
         .update(status)
         .where({id})
     }
+
+    declineRequest(id: string){
+        return this.db
+        .connection('friends')
+        .delete()
+        .where({id})
+        .andWhere({status: 'Pending'})
+        ;
+    }
 }

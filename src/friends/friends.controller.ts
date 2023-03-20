@@ -5,6 +5,7 @@ import {
   Request,
   Param,
   Put,
+  Delete,
   Query,
   UseGuards, 
   Get
@@ -46,6 +47,12 @@ export class FriendsController {
   @Put(':id')
   acceptRequest(@Param('id') id: string){
     return this.friendsService.acceptRequest(id)
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Delete(':id')
+  declineRequest(@Param('id') id: string){
+    return this.friendsService.declineRequest(id);
   }
 
 }
