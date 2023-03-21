@@ -41,9 +41,8 @@ export class FriendsController {
   @UseGuards(AuthGuard('jwt'))
   @Get('/requests')
   requests(@Request() request,status: string){
-    status = 'Pending';
     const id = request.user.id;
-    return this.friendsService.requests(id, status)
+    return this.friendsService.requests(id, 'Pending')
   }
 
   //Accept Friend Request
@@ -58,5 +57,4 @@ export class FriendsController {
   declineRequest(@Param('id') id: string){
     return this.friendsService.declineRequest(id);
   }
-
 }

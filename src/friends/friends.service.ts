@@ -39,7 +39,7 @@ export class FriendsService {
     requests(id: string, status: string){
         return this.db
         .connection('user')
-        .select('firstName','lastName','email',)
+        .select('firstName','lastName','email','status')
         .join('friends', {'friends.to_user':'user.id'})
         .whereILike('status', 'Pending')
         ;
@@ -56,13 +56,10 @@ export class FriendsService {
     }
 
     acceptRequest(id: string){
-        const status = {
-            status: 'Accepted'
-        }
 
         return this.db
         .connection('friends')
-        .update(status)
+        .update({status: 'Accepted'})
         .where({id})
     }
 
