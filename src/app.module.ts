@@ -6,8 +6,8 @@ import { UserModule } from './users/users.module';
 import { DatabaseModule } from 'libs/database/database.module';
 import { AuthModule } from './auth/auth.module';
 import { PostModule } from './post/post.module';
-
 import { CommentModule } from './comment/comment.module';
+import { FriendsModule } from './friends/friends.module';
 
 @Module({
   imports: [
@@ -16,9 +16,8 @@ import { CommentModule } from './comment/comment.module';
     DatabaseModule,
     AuthModule,
     PostModule,
-
     CommentModule,
-    
+    FriendsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
